@@ -1,44 +1,10 @@
 import pkg from './src/NodeManager.mjs';
+import n from './src/nodes/nodePark.mjs';
+
 import * as http from 'http';
 
 const { NodeManager } = pkg;
-
-
-let nodes = [
-    {
-       'options' :{
-            protocol:'http:',  
-            host: '127.0.0.1',
-            port:5000,
-            path: '/',
-            method:'GET'
-        },
-        'type': 'server',
-        'state': 1,
-    },
-    {
-       'options' :{
-            protocol:'http:',  
-            host: '127.0.0.1',
-            port:6000,
-            path: '/test',
-            method:'GET'
-        },
-        'type': 'server',
-        'state': 0,
-    },
-    {
-       'options' :{
-            protocol:'http:',  
-            host: '127.0.0.1',
-            port:4000,
-            path: '/test',
-            method:'GET'
-        },
-        'type': 'server',
-        'state': 2,
-    },
-]
+const { nodes } = n;
 
 let nm = new NodeManager(http,nodes)
 var i = 0

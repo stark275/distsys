@@ -1,32 +1,38 @@
 class NodeManager {
 
+    /**
+    * Construct NodeManager Object
+    * @param    {http Module} httpModule  Native NodeJs HTTP Module
+    * @param    {Object[]} nodes  Node list
+    * @return   {void}   
+    */
     constructor(httpModule,nodes) {
         this.nodes = nodes
         this.httpModule = httpModule
         this.aliveMessage = 'alive'
-        this.currentNode = -1;
     }
 
   
+    /**
+    * Pings node by id in array
+    * @param    {int} i  Node id
+    * @return   {void}   
+    */
     pingNodes(i){                                 
         var request= this.httpModule.request(this.nodes[i].options, this.requestCallback);
         request.on('error', (err) => {
-                
-            //  console.log(this.nodes[this.currentNode]);     
-            //  console.log(this.nodes[i].options)
-            console.log(this.nodes[i])              
+           // console.log(this.nodes[i])              
             console.error('Error with the request:', err.message)        
         });
-        request.end();
-        
-        if (this.currentNode == this.nodes.length)  
-            this.currentNode = -1
-
-        this.currentNode++
-            console.error('-----------------------------------------------------')              
-
+        request.end();       
+        console.error('-----------------------------------------------------')              
     }
 
+    /**
+    * Handle an HTTP Response
+    * @param    {Response} response  http Response
+    * @return   {void}   
+    */
     requestCallback(response){
         var str = ''
         response.on('data', function (chunk) {
