@@ -6,7 +6,7 @@ var nodes = [
        'options' :{
             protocol:'http:',  
             host: '127.0.0.1',
-            port:5000,
+            port:4000,
             path: '/',
             method:'GET'
         },
@@ -17,7 +17,7 @@ var nodes = [
        'options' :{
             protocol:'http:',  
             host: '127.0.0.1',
-            port:6000,
+            port:5000,
             path: '/n2',
             method:'GET'
         },
@@ -28,7 +28,7 @@ var nodes = [
        'options' :{
             protocol:'http:',  
             host: '127.0.0.1',
-            port:4000,
+            port:5000,
             path: '/n3',
             method:'GET'
         },

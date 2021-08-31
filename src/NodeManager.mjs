@@ -1,4 +1,7 @@
-import EventEmitter from 'events';
+import EventEmitter from 'events'
+import * as http from 'http'
+import n from './nodes/nodePark.mjs';
+
 
 class NodeManager {
     
@@ -8,9 +11,10 @@ class NodeManager {
     * @param    {Object[]} nodes  Nodes list
     * @return   {void}   
     */
-    constructor(httpModule,nodes) {
-        this.nodes = nodes
-        this.httpModule = httpModule
+    constructor() {
+        //console.log(n.nodes);
+        this.nodes = n.nodes
+        this.httpModule = http
         this.aliveMessage = 'alive'
         this.currentNode = null
         global.eventEmitter = new EventEmitter()
@@ -29,7 +33,8 @@ class NodeManager {
     * @return   {void}   
     */
     pingNode(nodeId){      
-        this.currentNode = nodeId                           
+        this.currentNode = nodeId      
+        // console.log(this.nodes);                     
         var request = this.httpModule.request(
             this.nodes[this.currentNode].options,
             this.requestCallback
@@ -41,7 +46,7 @@ class NodeManager {
        
         request.end();   
 
-        console.log(this.nodes);                            
+        //console.log(this.nodes);                            
          
         console.error('----------------------end Request-------------------------------')              
     }
@@ -72,6 +77,22 @@ class NodeManager {
     */
     changeNodeState(nodeId, state){
         this.nodes[nodeId].state = state
+    }
+
+    getNodeUrl(options){
+       return options.protocol+'//'+options.host+':'+options.port
+    }
+
+    getAliveNodesUrl(){
+        let aliveNodes = []
+        for (let id = 0; id < this.nodes.length; id++) {
+            let options = this.nodes[id].options
+            if (this.nodes[id].state == "alive") {
+                let noreUrl = this.getNodeUrl(options)
+                aliveNodes.push(noreUrl)
+            }
+        }
+        return aliveNodes
     }
 }
 
