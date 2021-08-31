@@ -10,7 +10,7 @@ let nm = new NodeManager(http,nodes)
 var i = 0
  
 setInterval(() => {
-    nm.pingNodes(i)
+    nm.pingNode(i)
     console.log(i); 
     if (i == nodes.length - 1) 
         i = 0

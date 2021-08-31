@@ -1,31 +1,49 @@
-class NodeManager {
+import EventEmitter from 'events';
 
+class NodeManager {
+    
     /**
     * Construct NodeManager Object
     * @param    {http Module} httpModule  Native NodeJs HTTP Module
-    * @param    {Object[]} nodes  Node list
+    * @param    {Object[]} nodes  Nodes list
     * @return   {void}   
     */
     constructor(httpModule,nodes) {
         this.nodes = nodes
         this.httpModule = httpModule
         this.aliveMessage = 'alive'
-    }
+        this.currentNode = null
+        global.eventEmitter = new EventEmitter()
 
+        eventEmitter.on('alive', () => {
+            this.changeNodeState(this.currentNode, 'alive')
+        })
+        eventEmitter.on('down', () => {
+            this.changeNodeState(this.currentNode, 'down')
+        })
+    }
   
     /**
     * Pings node by id in array
-    * @param    {int} i  Node id
+    * @param    {int} nodeId  Node id
     * @return   {void}   
     */
-    pingNodes(i){                                 
-        var request= this.httpModule.request(this.nodes[i].options, this.requestCallback);
+    pingNode(nodeId){      
+        this.currentNode = nodeId                           
+        var request = this.httpModule.request(
+            this.nodes[this.currentNode].options,
+            this.requestCallback
+        );
         request.on('error', (err) => {
-           // console.log(this.nodes[i])              
-            console.error('Error with the request:', err.message)        
+            global.eventEmitter.emit('down'); 
+            console.error('Node not repond, error: ', err.message);        
         });
-        request.end();       
-        console.error('-----------------------------------------------------')              
+       
+        request.end();   
+
+        console.log(this.nodes);                            
+         
+        console.error('----------------------end Request-------------------------------')              
     }
 
     /**
@@ -39,14 +57,21 @@ class NodeManager {
             str += chunk
         });
 
-        response.on('end', function () {
+        response.on('end',() => {
             console.log(str)
+            global.eventEmitter.emit('alive')                        
             //console.log('From: '+options.protocol+'//'+options.host+':'+options.port+options.path);
         });
     }
 
-    getAliveNode(){
-
+    /**
+    * Change state of given node
+    * @param    {int} nodeId Node id
+    * @param    {int} nodeId node state (can be : 'unknown', 'alive' or 'down')
+    * @return   {void}   
+    */
+    changeNodeState(nodeId, state){
+        this.nodes[nodeId].state = state
     }
 }
 

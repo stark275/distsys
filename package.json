@@ -1,7 +1,7 @@
 {
   "name": "middlewarejs",
   "version": "1.0.0",
-  "description": "Middleware for distributed system",
+  "description": "Middleware for distributed systems",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

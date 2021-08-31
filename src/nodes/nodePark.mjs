@@ -1,3 +1,6 @@
+ /**
+*  All nodes of Distributed system  
+*/
 var nodes = [
     {
        'options' :{
@@ -8,7 +11,7 @@ var nodes = [
             method:'GET'
         },
         'type': 'server',
-        'state': 1,
+        'state': 'unknown', // can be : 'unknown', 'alive' or 'down'
     },
     {
        'options' :{
@@ -19,7 +22,7 @@ var nodes = [
             method:'GET'
         },
         'type': 'server',
-        'state': 0,
+        'state': 'unknown',
     },
     {
        'options' :{
@@ -30,7 +33,7 @@ var nodes = [
             method:'GET'
         },
         'type': 'server',
-        'state': 2,
+        'state': 'unknown',
     },
 ]
 
