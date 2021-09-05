@@ -1,10 +1,5 @@
 import pkg from './src/NodeManager.mjs';
-
-
-
 const { NodeManager } = pkg;
-
-
 let nm = new NodeManager()
 var i = 0
  
